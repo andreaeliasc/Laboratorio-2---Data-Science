@@ -20,3 +20,33 @@ importaciones[importaciones$Anio>="2018","Diesel"]<-importaciones[importaciones$
 
 consumo$DieselLS <- NULL
 importaciones$DieselLS <- NULL
+
+
+
+## consumo
+dieselTimeSeriesC <-ts(consumo$Diesel,start = 2001, end = 2021,frequency = 12)
+superTimeSeriesC <-ts(consumo$GasolinaSuper,start = 2001,end = 2021,frequency = 12)
+regularTimeSeriesC<-ts(consumo$GasolinaRegular,start = 2001,end = 2021,frequency = 12)
+View(dieselTimeSeriesC)
+View(regularTimeSeriesC)
+View(superTimeSeriesC)
+### graficas
+plot(dieselTimeSeriesC, col = "magenta")
+plot(superTimeSeriesC, col = "magenta")
+plot(regularTimeSeriesC, col = "magenta")
+
+
+
+
+## importaciones
+dieselTimeSeriesI<-ts(importaciones$Diesel,start = 2001, end = 2020,frequency = 12)
+superTimeSeriesI<-ts(importaciones$GasolinaSuper,start = 2001,end = 2020,frequency = 12)
+regularTimeSeriesI<-ts(importaciones$GasolinaRegular,start = 2001,end = 2020,frequency = 12)
+View(dieselTimeSeriesI)
+View(regularTimeSeriesI)
+View(superTimeSeriesI)
+### graficas
+plot(dieselTimeSeriesI, col = "blue")
+plot(superTimeSeriesI, col = "blue")
+plot(regularTimeSeriesI, col = "blue")
+
