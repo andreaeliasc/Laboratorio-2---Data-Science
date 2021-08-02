@@ -50,3 +50,25 @@ plot(dieselTimeSeriesI, col = "blue")
 plot(superTimeSeriesI, col = "blue")
 plot(regularTimeSeriesI, col = "blue")
 
+#Analisis de estacionariedad en varianza
+
+varDiesel <-cbind(dieselTimeSeriesI)
+plot.ts(varDiesel)
+
+varRegular <-cbind(regularTimeSeriesI)
+plot.ts(varRegular)
+
+varsuper <-cbind(superTimeSeriesI)
+plot.ts(varsuper)
+
+lambda <- BoxCox.lambda(dieselTimeSeriesI)
+print(lambda)
+plot(BoxCox(dieselTimeSeriesI, lambda = -0.06583995))
+
+lambda <- BoxCox.lambda(regularTimeSeriesI)
+print(lambda)
+plot(BoxCox(regularTimeSeriesI, lambda = -0.3511798))
+
+lambda <- BoxCox.lambda(superTimeSeriesI)
+print(lambda)
+plot(BoxCox(superTimeSeriesI, lambda = -0.2862332))
