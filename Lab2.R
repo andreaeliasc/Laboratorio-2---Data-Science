@@ -62,23 +62,82 @@ plot(decompose(regularTimeSeriesC))
 
 #Analisis de estacionariedad en varianza
 
-varDiesel <-cbind(dieselTimeSeriesI)
-plot.ts(varDiesel)
+#Estacionariedad 
+##Consumo
+###Diesel
+plot(aggregate(dieselTimeSeriesC,FUN=mean))
+dec.Diesel<-decompose(na.StructTS(dieselTimeSeriesC))
+plot(dec.Diesel)
+plot(dec.Diesel$seasonal)
+###Super
+plot(aggregate(superTimeSeriesC,FUN=mean))
+dec.Super<-decompose(na.StructTS(superTimeSeriesC))
+plot(dec.Super)
+plot(dec.Super$seasonal)
+###Regular
+plot(aggregate(regularTimeSeriesC,FUN=mean))
+dec.Regular<-decompose(na.StructTS(regularTimeSeriesC))
+plot(dec.Regular)
+plot(dec.Regular$seasonal)
 
-varRegular <-cbind(regularTimeSeriesI)
-plot.ts(varRegular)
+##Importaciones
+###Diesel
+plot(aggregate(dieselTimeSeriesI,FUN=mean))
+dec.Diesel<-decompose(na.StructTS(dieselTimeSeriesI))
+plot(dec.Diesel)
+plot(dec.Diesel$seasonal)
+###Super
+plot(aggregate(superTimeSeriesI,FUN=mean))
+dec.Super<-decompose(na.StructTS(superTimeSeriesI))
+plot(dec.Super)
+plot(dec.Super$seasonal)
+###Regular
+plot(aggregate(regularTimeSeriesI,FUN=mean))
+dec.Regular<-decompose(na.StructTS(regularTimeSeriesI))
+plot(dec.Regular)
+plot(dec.Regular$seasonal)
 
-varsuper <-cbind(superTimeSeriesI)
-plot.ts(varsuper)
+#Analisis de estacionariedad en varianza
+##Importaciones
+varDieselI <-cbind(dieselTimeSeriesI)
+plot.ts(varDieselI)
+
+varRegularI <-cbind(regularTimeSeriesI)
+plot.ts(varRegularI)
+
+varsuperI <-cbind(superTimeSeriesI)
+plot.ts(varsuperI)
 
 lambda <- BoxCox.lambda(dieselTimeSeriesI)
 print(lambda)
-plot(BoxCox(dieselTimeSeriesI, lambda = -0.06583995))
+plot(BoxCox(dieselTimeSeriesI, lambda = -0.05377146))
 
 lambda <- BoxCox.lambda(regularTimeSeriesI)
 print(lambda)
-plot(BoxCox(regularTimeSeriesI, lambda = -0.3511798))
+plot(BoxCox(regularTimeSeriesI, lambda = -0.2309985))
 
 lambda <- BoxCox.lambda(superTimeSeriesI)
 print(lambda)
-plot(BoxCox(superTimeSeriesI, lambda = -0.2862332))
+plot(BoxCox(superTimeSeriesI, lambda = -0.4456302))
+
+##Consumo
+varDieselC <-cbind(dieselTimeSeriesC)
+plot.ts(varDieselC)
+
+varRegularC <-cbind(regularTimeSeriesC)
+plot.ts(varRegularC)
+
+varsuperC <-cbind(superTimeSeriesC)
+plot.ts(varsuperC)
+
+lambda <- BoxCox.lambda(dieselTimeSeriesC)
+print(lambda)
+plot(BoxCox(dieselTimeSeriesC, lambda = -0.2047953))
+
+lambda <- BoxCox.lambda(regularTimeSeriesC)
+print(lambda)
+plot(BoxCox(regularTimeSeriesC, lambda = -0.3088451))
+
+lambda <- BoxCox.lambda(superTimeSeriesC)
+print(lambda)
+plot(BoxCox(superTimeSeriesC, lambda = -0.5363523))
