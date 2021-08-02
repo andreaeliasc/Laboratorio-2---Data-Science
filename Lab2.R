@@ -50,6 +50,16 @@ plot(dieselTimeSeriesI, col = "blue")
 plot(superTimeSeriesI, col = "blue")
 plot(regularTimeSeriesI, col = "blue")
 
+##decompose 
+
+plot(decompose(dieselTimeSeriesI))
+plot(decompose(superTimeSeriesI))
+plot(decompose(regularTimeSeriesI))
+
+plot(decompose(dieselTimeSeriesC))
+plot(decompose(superTimeSeriesC))
+plot(decompose(regularTimeSeriesC))
+
 #Analisis de estacionariedad en varianza
 
 varDiesel <-cbind(dieselTimeSeriesI)
