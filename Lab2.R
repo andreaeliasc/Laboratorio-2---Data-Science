@@ -141,3 +141,24 @@ plot(BoxCox(regularTimeSeriesC, lambda = -0.3088451))
 lambda <- BoxCox.lambda(superTimeSeriesC)
 print(lambda)
 plot(BoxCox(superTimeSeriesC, lambda = -0.5363523))
+
+#logaritmo
+
+logDieselI <- log(dieselTimeSeriesI)
+logRegularI <- log(regularTimeSeriesI)
+logSuperI <- log
+
+logDieselC <- log(dieselTimeSeriesC)
+logRegularC <- log(regularTimeSeriesC)
+logSuperC <- log(superTimeSeriesC)
+
+
+#Determinar si hay raices
+
+adf.test(logDieselI)
+adf.test(logRegularI)
+adf.test(logSuperI)
+
+adf.test(logDieselC)
+adf.test(logRegularC)
+adf.test(logSuperC)
