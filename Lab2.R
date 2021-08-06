@@ -162,3 +162,121 @@ adf.test(logSuperI)
 adf.test(logDieselC)
 adf.test(logRegularC)
 adf.test(logSuperC)
+
+#Determinacion de valores Q y D 
+acf(logDieselI, 50)
+acf(logRegularI, 50)
+acf(logSuperI, 50)
+
+pacf(diff(logDieselI), 50)
+pacf(diff(logRegularI), 50)
+pacf(diff(logSuperI),50)
+
+acf(logDieselC, 50)
+acf(logRegularC, 50)
+acf(logSuperC, 50)
+
+pacf(diff(logDieselC), 50)
+pacf(diff(logRegularC), 50)
+pacf(diff(logSuperC), 50)
+
+#Modelo
+
+#Consumo
+arimaDieselC<- auto.arima(dieselTimeSeriesC)
+
+fit <- arima(log(dieselTimeSeriesC), c(0,1,1), seasonal = list(order = c(0,1,1), period = 12))
+pred<- predict(fit, n.ahead = 10*12)
+ts.plot(dieselTimeSeriesC,2.718^pred$pred, log = "y", lty = c(1,3))
+
+fit2 <- arima(log(dieselTimeSeriesC), c(2, 1, 1),seasonal = list(order = c(0, 1, 1), period = 12))
+
+forecastAPC <- forecast(fit2, level = c(95), h = 50)
+autoplot(forecastAPC)
+
+#importaciones
+
+arimaDieselI<- auto.arima(dieselTimeSeriesI)
+
+fit <- arima(log(dieselTimeSeriesI), c(0,1,1), seasonal = list(order = c(0,1,1), period = 12))
+pred<- predict(fit, n.ahead = 10*12)
+ts.plot(dieselTimeSeriesI,2.718^pred$pred, log = "y", lty = c(1,3))
+
+fit2 <- arima(log(dieselTimeSeriesI), c(2, 1, 1),seasonal = list(order = c(0, 1, 1), period = 12))
+
+forecastAPI <- forecast(fit2, level = c(95), h = 50)
+autoplot(forecastAPI)
+
+
+
+#Modelo para Regular
+#Consumo
+arimaRegularC<- auto.arima(regularTimeSeriesC)
+
+fit <- arima(log(regularTimeSeriesC), c(1,1,2), seasonal = list(order = c(1,1,1), period = 12))
+pred<- predict(fit, n.ahead = 10*12)
+ts.plot(regularTimeSeriesC,2.718^pred$pred, log = "y", lty = c(1,3))
+
+fit2 <- arima(log(regularTimeSeriesC), c(1, 1, 2),seasonal = list(order = c(0, 1, 1), period = 12))
+
+forecastAP <- forecast(fit2, level = c(95), h = 50)
+autoplot(forecastAP)
+
+#Importaciones
+arimaRegularI<- auto.arima(regularTimeSeriesI)
+
+fit <- arima(log(regularTimeSeriesI), c(1,1,2), seasonal = list(order = c(1,1,1), period = 12))
+pred<- predict(fit, n.ahead = 10*12)
+ts.plot(regularTimeSeriesI,2.718^pred$pred, log = "y", lty = c(1,3))
+
+fit2 <- arima(log(regularTimeSeriesI), c(1, 1, 2),seasonal = list(order = c(0, 1, 1), period = 12))
+
+forecastAP <- forecast(fit2, level = c(95), h = 50)
+autoplot(forecastAP)
+
+
+#Modelo para Super
+#Consumo
+arimaSuper<- auto.arima(superTimeSeriesC)
+
+fit <- arima(log(superTimeSeriesC), c(1,1,2), seasonal = list(order = c(1,1,1), period = 12))
+pred<- predict(fit, n.ahead = 10*12)
+ts.plot(superTimeSeriesC,2.718^pred$pred, log = "y", lty = c(1,3))
+
+fit2 <- arima(log(superTimeSeriesC), c(1, 1, 2),seasonal = list(order = c(0, 1, 1), period = 12))
+
+forecastAP <- forecast(fit2, level = c(95), h = 50)
+autoplot(forecastAP)
+
+#Importaciones
+
+arimaSuper<- auto.arima(superTimeSeriesI)
+
+fit <- arima(log(superTimeSeriesI), c(1,1,2), seasonal = list(order = c(1,1,1), period = 12))
+pred<- predict(fit, n.ahead = 10*12)
+ts.plot(superTimeSeriesI,2.718^pred$pred, log = "y", lty = c(1,3))
+
+fit2 <- arima(log(superTimeSeriesI), c(1, 1, 2),seasonal = list(order = c(0, 1, 1), period = 12))
+
+forecastAP <- forecast(fit2, level = c(95), h = 50)
+autoplot(forecastAP)
+
+
+
+# Separacion de conjunto de datos para entrenamiento 
+dieselSTEntrenamientoC<-ts(consumo$Diesel,start = 2001, end = 2015,frequency = 12)
+superSTEntrenamientoC<-ts(consumo$GasolinaSuper,start = 2001,end = 2015,frequency = 12)
+regularSTEntrenamientoC<-ts(consumo$GasolinaRegular,start = 2001,end = 2015,frequency = 12)
+
+dieselSTEntrenamientoI<-ts(importaciones$Diesel,start = 2001, end = 2015,frequency = 12)
+superSTEntrenamientoI<-ts(importaciones$GasolinaSuper,start = 2001,end = 2015,frequency = 12)
+regularSTEntrenamientoI<-ts(importaciones$GasolinaRegular,start = 2001,end = 2015,frequency = 12)
+
+# Separacion de conjunto de datos para test
+dieselSTTestC<-ts(consumo$Diesel,start = 2016, end = 2021,frequency = 12)
+superSTTesC<-ts(consumo$GasolinaSuper,start = 2016,end = 2021,frequency = 12)
+regularSTTesC<-ts(consumo$GasolinaRegular,start = 2016,end = 2021,frequency = 12)
+
+dieselSTTestI<-ts(importaciones$Diesel,start = 2016, end = 2021,frequency = 12)
+superSTTesI<-ts(importaciones$GasolinaSuper,start = 2016,end = 2021,frequency = 12)
+regularSTTesI<-ts(importaciones$GasolinaRegular,start = 2016,end = 2021,frequency = 12)
