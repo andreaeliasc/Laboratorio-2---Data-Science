@@ -146,7 +146,7 @@ plot(BoxCox(superTimeSeriesC, lambda = -0.5363523))
 
 logDieselI <- log(dieselTimeSeriesI)
 logRegularI <- log(regularTimeSeriesI)
-logSuperI <- log
+logSuperI <- log(superTimeSeriesI)
 
 logDieselC <- log(dieselTimeSeriesC)
 logRegularC <- log(regularTimeSeriesC)
