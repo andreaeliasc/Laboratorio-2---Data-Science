@@ -280,3 +280,167 @@ regularSTTesC<-ts(consumo$GasolinaRegular,start = 2016,end = 2021,frequency = 12
 dieselSTTestI<-ts(importaciones$Diesel,start = 2016, end = 2021,frequency = 12)
 superSTTesI<-ts(importaciones$GasolinaSuper,start = 2016,end = 2021,frequency = 12)
 regularSTTesI<-ts(importaciones$GasolinaRegular,start = 2016,end = 2021,frequency = 12)
+
+
+# Prophet Modelo 
+install.packagies('Rcpp')
+library(Rcpp)
+install.packages('rlang')
+library(rlang)
+install.packages('prophet')
+library(prophet)
+library(zoo)
+install.packages('rstan')
+library(rstan)
+
+# Gasolina diesel 
+#Consumo
+prophetDieseldfC <- data.frame(ds=as.Date(yearmon(time(dieselSTEntrenamientoC))),y = as.matrix(dieselSTEntrenamientoC))
+prophetDieseltestC <- data.frame(ds=as.Date(yearmon(time(dieselSTTestC))),y = as.matrix(dieselSTTestC))
+
+head(prophetDieseldfC)
+
+fitProphet<-prophet(prophetDieseldfC,yearly.seasonality = T,weekly.seasonality = T)
+future <- make_future_dataframe(fitProphet,periods = 49,freq = "month", include_history = T)
+p <- predict(fitProphet,future)
+p<-p[,c("ds","yhat","yhat_lower","yhat_upper")]
+plot(fitProphet,p)
+
+
+pred<-tail(p,61)
+pred$y<-prophetDieseltestC$y
+
+
+ggplot(pred, aes(x=ds, y=yhat)) +
+  geom_line(size=1, alpha=0.8) +
+  geom_ribbon(aes(ymin=yhat_lower, ymax=yhat_upper), fill="blue", alpha=0.2) +
+  geom_line(data=pred, aes(x=ds, y=y),color="red")
+
+#Importaciones
+
+prophetDieseldfI <- data.frame(ds=as.Date(yearmon(time(dieselSTEntrenamientoI))),y = as.matrix(dieselSTEntrenamientoI))
+prophetDieseltestI <- data.frame(ds=as.Date(yearmon(time(dieselSTTestI))),y = as.matrix(dieselSTTestI))
+
+head(prophetDieseldfI)
+
+fitProphet<-prophet(prophetDieseldfI,yearly.seasonality = T,weekly.seasonality = T)
+future <- make_future_dataframe(fitProphet,periods = 49,freq = "month", include_history = T)
+p <- predict(fitProphet,future)
+p<-p[,c("ds","yhat","yhat_lower","yhat_upper")]
+plot(fitProphet,p)
+
+
+pred<-tail(p,61)
+pred$y<-prophetDieseltestI$y
+
+
+ggplot(pred, aes(x=ds, y=yhat)) +
+  geom_line(size=1, alpha=0.8) +
+  geom_ribbon(aes(ymin=yhat_lower, ymax=yhat_upper), fill="blue", alpha=0.2) +
+  geom_line(data=pred, aes(x=ds, y=y),color="red")
+
+
+# Gasolina super
+
+#Consumo
+prophetSuperdfC <- data.frame(ds=as.Date(yearmon(time(superSTEntrenamientoC))),y = as.matrix(superSTEntrenamientoC))
+prophetSupertestC <- data.frame(ds=as.Date(yearmon(time(superSTTesC))),y = as.matrix(superSTTesC))
+
+head(prophetDieseldfC)
+
+fitProphet<-prophet(prophetSuperdfC,yearly.seasonality = T,weekly.seasonality = T)
+future <- make_future_dataframe(fitProphet,periods = 49,freq = "month", include_history = T)
+
+p <- predict(fitProphet,future)
+p<-p[,c("ds","yhat","yhat_lower","yhat_upper")]
+
+plot(fitProphet,p)
+
+
+pred<-tail(p,61)
+pred$y<-prophetSupertestC$y
+
+
+ggplot(pred, aes(x=ds, y=yhat)) +
+  geom_line(size=1, alpha=0.8) +
+  geom_ribbon(aes(ymin=yhat_lower, ymax=yhat_upper), fill="blue", alpha=0.2) +
+  geom_line(data=pred, aes(x=ds, y=y),color="red")
+
+#Importaciones
+
+prophetSuperdfI <- data.frame(ds=as.Date(yearmon(time(superSTEntrenamientoI))),y = as.matrix(superSTEntrenamientoI))
+prophetSupertestI <- data.frame(ds=as.Date(yearmon(time(superSTTesI))),y = as.matrix(superSTTesI))
+
+head(prophetDieseldfI)
+
+fitProphet<-prophet(prophetSuperdfI,yearly.seasonality = T,weekly.seasonality = T)
+future <- make_future_dataframe(fitProphet,periods = 49,freq = "month", include_history = T)
+p <- predict(fitProphet,future)
+
+p<-p[,c("ds","yhat","yhat_lower","yhat_upper")]
+plot(fitProphet,p)
+
+
+pred<-tail(p,61)
+pred$y<-prophetSupertestI$y
+
+
+ggplot(pred, aes(x=ds, y=yhat)) +
+  geom_line(size=1, alpha=0.8) +
+  geom_ribbon(aes(ymin=yhat_lower, ymax=yhat_upper), fill="blue", alpha=0.2) +
+  geom_line(data=pred, aes(x=ds, y=y),color="red")
+
+
+
+# Gasolina Regular
+
+#Consumo
+prophetRegulardfC <- data.frame(ds=as.Date(yearmon(time(regularSTEntrenamientoC))),y = as.matrix(regularSTEntrenamientoC))
+prophetRegulartestC <- data.frame(ds=as.Date(yearmon(time(regularSTTesC))),y = as.matrix(regularSTTesC))
+
+head(prophetRegulardfC)
+
+fitProphet<-prophet(prophetRegulardfC,yearly.seasonality = T,weekly.seasonality = T)
+future <- make_future_dataframe(fitProphet,periods = 49,freq = "month", include_history = T)
+p <- predict(fitProphet,future)
+
+
+p<-p[,c("ds","yhat","yhat_lower","yhat_upper")]
+plot(fitProphet,p)
+
+
+pred<-tail(p,61)
+pred$y<-prophetRegulartestC$y
+
+
+ggplot(pred, aes(x=ds, y=yhat)) +
+  geom_line(size=1, alpha=0.8) +
+  geom_ribbon(aes(ymin=yhat_lower, ymax=yhat_upper), fill="blue", alpha=0.2) +
+  geom_line(data=pred, aes(x=ds, y=y),color="red")
+
+
+#Importaciones
+
+prophetRegulardfI <- data.frame(ds=as.Date(yearmon(time(regularSTEntrenamientoI))),y = as.matrix(regularSTEntrenamientoI))
+prophetRegulartestI <- data.frame(ds=as.Date(yearmon(time(regularSTTesI))),y = as.matrix(regularSTTesI))
+
+head(prophetRegulardfI)
+
+fitProphet<-prophet(prophetRegulardfI,yearly.seasonality = T,weekly.seasonality = T)
+future <- make_future_dataframe(fitProphet,periods = 49,freq = "month", include_history = T)
+p <- predict(fitProphet,future)
+
+p<-p[,c("ds","yhat","yhat_lower","yhat_upper")]
+plot(fitProphet,p)
+
+
+pred<-tail(p,61)
+pred$y<-prophetRegulartestI$y
+
+
+ggplot(pred, aes(x=ds, y=yhat)) +
+  geom_line(size=1, alpha=0.8) +
+  geom_ribbon(aes(ymin=yhat_lower, ymax=yhat_upper), fill="blue", alpha=0.2) +
+  geom_line(data=pred, aes(x=ds, y=y),color="red")
+
+
